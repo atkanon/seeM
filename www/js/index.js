@@ -7,8 +7,8 @@ $(document).ready(function() {
 	});
 
 
-	setInterval('add_CM_clip()', 5000);
-	setInterval('add_program_clip()', 1000);
+//	setInterval('add_CM_clip()', 2000);
+	setInterval('add_program_clip()', 2000);
 });
 
 /**
@@ -46,20 +46,25 @@ function get_clip_id_num(str) {
 
 
 /**
- * クリップを追加する
+ * CMのログを追加する
  */
-function add_CM_clip() {
+function add_CM_clip(json_data) {
 	var cld = $('#TL').children();
-	var latest = $(cld[0]);
+	var len = cld.length;
+	var latest = $(cld[len-1]);
 	var id_num = get_clip_id_num(latest.attr('id'));
 
 	id_num++; // 新しく追加するid番号
 
+	var sum_path = './img/sum.gif';
+	var title = 'うなぎ王国の崩壊';
+	var expln = 'うなぎが美味しくさばける包丁';
+
 	/**
 	 * TLに挿入
 	 */
-	var clip = get_CM_clip(id_num);
-	 clip.insertBefore(latest);
+	var clip = get_CM_clip(id_num, sum_path, title, expln);
+	clip.appendTo($('#TL'));
 
 	/**
 	 * 詳細情報を挿入
@@ -73,17 +78,29 @@ function add_CM_clip() {
 	set_action();
 }
 
-function add_program_clip() {
+/**
+ * 番組のログを追加
+ */
+function add_program_clip(json_data) {
+	/**
+	 * idを決める
+	 */
 	var cld = $('#TL').children();
-	var latest = $(cld[0]);
+	var len = cld.length;
+	var latest = $(cld[len-1]);
 	var id_num = get_clip_id_num(latest.attr('id'));
 
 	id_num++; // 新しく追加するid番号
 
+	var sum_path = './img/sum.gif';
+	var title = 'うなぎ王国の崩壊';
+	var expln = 'うなぎが美味しくさばける包丁';
+	var time = '１０：００～１４：００';
+
 	/**
 	 * TLに挿入
 	 */
-	var clip = get_program_clip(id_num);
+	var clip = get_program_clip(id_num, sum_path, title, expln, time);
 	 clip.appendTo($('#TL'));
 
 	/**
@@ -98,15 +115,31 @@ function add_program_clip() {
 	set_action();
 }
 
-function get_program_clip(id_num) {
-	var clip = $('<div></div>').attr({
+/**
+ * id_numberを指定して番組のログのタグを作成
+ * @param id_num
+ * @returns
+ */
+function get_program_clip(id_num, sum_path, title, expln, time) {
+	var table = $('<table></table>').attr({
 		'id': 'clip' + id_num,
-		'class': 'clip'
-	}).html('番組clip' + id_num);
-	return clip;
+		'class': 'clip program_clip'
+	});
+
+	var tr1 = $('<tr></tr>').appendTo(table);
+	$('<td rowspan="3"><img src="./img/sum.gif"' +
+			'alt="" /></td><td class="title"><img src="./img/program.gif" alt="" /><br />情熱大陸 ～うなぎの生態をめぐって～</td>').appendTo(tr1);
+
+	var tr2 = $('<tr></tr>').appendTo(table);
+	$('<td>うなぎはどこからやってくるのか？うなぎの生まれをたしかめるために・・・</td>').appendTo(tr2);
+
+	var tr3 = $('<tr></tr>').appendTo(table);
+	$('<td>10:00～13:00</td>').appendTo(tr3);
+
+	return table;
 }
 
-function get_CM_clip(id_num) {
+function get_CM_clip(id_num, sum_path, title, expln) {
 	var clip = $('<div></div>').attr({
 		'id': 'clip' + id_num,
 		'class': 'clip'

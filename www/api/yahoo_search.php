@@ -19,7 +19,7 @@ function wget($url, $timeout = 30) {
 // $url = 'http://shopping.yahooapis.jp/ShoppingWebService/V1/itemSearch?appid=dj0zaiZpPW1sYmViYjVyakF3YSZzPWNvbnN1bWVyc2VjcmV0Jng9YWU-&category_id=635&sort=-sold&query=HDMI';
 $url = 'http://shopping.yahoo.co.jp/review/item/list?store_id=sanwadirect&page_key=500-hdmi001-2';
 
-echo mb_convert_encoding(wget($url), 'utf-8', 'shift-jis');
-// echo wget($url);
+// echo mb_convert_encoding(wget($url), 'utf-8', 'shift-jis');
+echo wget($url);
 
 ?>
